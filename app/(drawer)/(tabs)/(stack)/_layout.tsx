@@ -1,15 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions, StackActions } from '@react-navigation/native';
 import { Stack, useNavigation } from 'expo-router';
 import { Text } from 'react-native';
 const StackLayout = () => {
   const navigation = useNavigation();
 
-  const onHeaderLeftClick = () => {
-    const id = navigation.getId();
-
-    if (navigation.canGoBack()) {
-      navigation.goBack();
+  const onHeaderLeftClick = (canGoBack: boolean) => {
+    if (canGoBack) {
+      navigation.dispatch(StackActions.pop());
       return;
     }
 
@@ -29,7 +27,7 @@ const StackLayout = () => {
             name={canGoBack ? 'arrow-back-outline' : 'grid-outline'}
             className="mr-5"
             size={20}
-            onPress={onHeaderLeftClick}
+            onPress={() => onHeaderLeftClick(canGoBack)}
           />
         ),
       }}
