@@ -1,10 +1,21 @@
 import { products } from '@/store/products.store';
-import { Redirect, useLocalSearchParams } from 'expo-router';
+import { Redirect, useLocalSearchParams, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
 import { View, Text } from 'react-native';
 const ProductScreen = () => {
   const { id } = useLocalSearchParams();
 
   const product = products.find((p) => p.id == id);
+  const navigation = useNavigation()
+  useEffect(() => {
+   navigation.setOptions({
+    title: product?.title ?? 'Producto',
+   })
+  
+   
+  }, [product])
+  
+
 
   if (!product) {
     return <Redirect href="/" />;
